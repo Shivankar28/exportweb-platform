@@ -1,0 +1,101 @@
+{% extends 'admin_dashboard/base_admin.html' %}
+
+{% block admin_content %}
+<!-- Stats Counter Grid -->
+<div class="row g-4 mb-4">
+    <div class="col-md-3 col-6">
+        <div class="card card-custom p-3 border-start border-4 border-warning bg-white">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <span class="text-muted small d-block">Pending Approvals</span>
+                    <h3 class="fw-bold mb-0 text-warning">{{ stats.pending }}</h3>
+                </div>
+                <i class="bi bi-clock-history text-warning fs-1"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="card card-custom p-3 border-start border-4 border-success bg-white">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <span class="text-muted small d-block">Approved Exporters</span>
+                    <h3 class="fw-bold mb-0 text-success">{{ stats.approved }}</h3>
+                </div>
+                <i class="bi bi-patch-check-fill text-success fs-1"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="card card-custom p-3 border-start border-4 border-primary bg-white">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <span class="text-muted small d-block">Catalog Products</span>
+                    <h3 class="fw-bold mb-0 text-primary">{{ stats.products }}</h3>
+                </div>
+                <i class="bi bi-box-seam text-primary fs-1"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="card card-custom p-3 border-start border-4 border-dark bg-white">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <span class="text-muted small d-block">Global Buyer RFQs</span>
+                    <h3 class="fw-bold mb-0 text-dark">{{ stats.enquiries }}</h3>
+                </div>
+                <i class="bi bi-envelope-paper text-dark fs-1"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Pending Seller Verification Queue -->
+<div class="card card-custom p-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold mb-0 text-dark"><i class="bi bi-clock-history me-2 text-warning"></i>Pending Seller Review Queue ({{ pending_sellers|length }})</h5>
+        <a href="{{ url_for('admin.sellers', status='pending') }}" class="btn btn-outline-dark btn-sm fw-semibold">Manage All Sellers</a>
+    </div>
+
+    {% if pending_sellers %}
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Date Submitted</th>
+                        <th>Company Name</th>
+                        <th>GST Number</th>
+                        <th>IEC Code</th>
+                        <th>Turnover</th>
+                        <th>Completion</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for seller in pending_sellers %}
+                    <tr>
+                        <td class="small text-muted">{{ seller.created_at.strftime('%Y-%m-%d') }}</td>
+                        <td class="fw-bold text-dark">{{ seller.company_name }}</td>
+                        <td class="small font-monospace">{{ seller.gst_number or 'N/A' }}</td>
+                        <td class="small font-monospace">{{ seller.iec_code or 'N/A' }}</td>
+                        <td class="small">{{ seller.annual_turnover or 'N/A' }}</td>
+                        <td>
+                            <span class="badge bg-primary">{{ seller.completion_percentage }}%</span>
+                        </td>
+                        <td>
+                            <a href="{{ url_for('admin.seller_detail', seller_id=seller.id) }}" class="btn btn-sm btn-warning fw-bold">
+                                Audit Profile & Approve <i class="bi bi-arrow-right ms-1"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="p-4 text-center text-muted bg-light rounded-3">
+            <i class="bi bi-check-circle fs-3 text-success d-block mb-2"></i>
+            No pending seller submissions in the approval queue.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

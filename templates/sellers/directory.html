@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+
+{% block title %}Verified Exporters Directory | GlobalExportHub{% endblock %}
+
+{% block content %}
+<div class="bg-dark text-white py-4 mb-4" style="background: linear-gradient(135deg, #0f172a, #1e293b);">
+    <div class="container">
+        <h1 class="display-6 fw-bold text-white mb-2">Verified Exporters Directory</h1>
+        <p class="text-light opacity-75 mb-0">Discover ISO, HACCP & APEDA audited manufacturers and export houses ready for international supply.</p>
+    </div>
+</div>
+
+<div class="container py-3">
+    <div class="row g-4">
+        <!-- Sidebar Filters -->
+        <div class="col-lg-3">
+            <div class="card card-custom p-3 sticky-top" style="top: 90px; z-index: 10;">
+                <h5 class="fw-bold mb-3"><i class="bi bi-funnel text-warning me-2"></i>Filter Exporters</h5>
+                <form action="{{ url_for('main.sellers_directory') }}" method="GET">
+                    
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Search Keywords</label>
+                        <input type="text" name="q" class="form-control form-control-sm" placeholder="Company, product, GST..." value="{{ search_q }}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Industry Sector</label>
+                        <select name="category" class="form-select form-select-sm">
+                            <option value="">All Categories</option>
+                            {% for cat in categories %}
+                                <option value="{{ cat.id }}" {% if selected_category == cat.id %}selected{% endif %}>{{ cat.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Export Destination Country</label>
+                        <select name="country" class="form-select form-select-sm">
+                            <option value="">All Destinations</option>
+                            {% for c in countries %}
+                                <option value="{{ c.name }}" {% if selected_country == c.name %}selected{% endif %}>{{ c.flag_emoji }} {{ c.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Quality Certification</label>
+                        <select name="certification" class="form-select form-select-sm">
+                            <option value="">All Certifications</option>
+                            {% for cert in certifications %}
+                                <option value="{{ cert }}" {% if selected_cert == cert %}selected{% endif %}>{{ cert }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-navy btn-sm fw-bold">Apply Filters</button>
+                        <a href="{{ url_for('main.sellers_directory') }}" class="btn btn-outline-secondary btn-sm">Reset All</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Sellers List -->
+        <div class="col-lg-9">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-muted small">Showing <strong>{{ sellers|length }}</strong> verified exporters</span>
+            </div>
+
+            {% if sellers %}
+                <div class="row g-4">
+                    {% for seller in sellers %}
+                    <div class="col-md-6">
+                        <div class="card card-custom h-100 d-flex flex-column">
+                            <div class="position-relative">
+                                <img src="{{ seller.cover_url or 'https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=600&q=80' }}" class="card-img-top" alt="{{ seller.company_name }}" style="height: 130px; object-fit: cover;">
+                                <div class="position-absolute top-100 start-0 translate-middle-y ms-3">
+                                    <img src="{{ seller.logo_url or 'https://images.unsplash.com/photo-1560179707-f14e90ef3623?auto=format&fit=crop&w=200&q=80' }}" class="rounded-3 border border-3 border-white bg-white shadow-sm" alt="logo" style="width: 54px; height: 54px; object-fit: contain;">
+                                </div>
+                            </div>
+                            <div class="card-body pt-4 flex-grow-1">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <span class="badge badge-verified"><i class="bi bi-patch-check-fill"></i> Verified</span>
+                                    {% if seller.is_featured %}
+                                        <span class="badge bg-warning text-dark"><i class="bi bi-star-fill"></i> Featured</span>
+                                    {% endif %}
+                                </div>
+                                <h5 class="fw-bold mb-1">
+                                    <a href="{{ url_for('main.seller_portfolio', seller_slug=seller.slug) }}" class="text-dark text-decoration-none">
+                                        {{ seller.company_name }}
+                                    </a>
+                                </h5>
+                                <p class="small text-muted mb-2">{{ seller.business_type or 'Exporter' }} &bull; Est. {{ seller.year_established or 'N/A' }}</p>
+                                <p class="card-text small text-secondary line-clamp-2 mb-3">
+                                    {{ seller.description or 'Certified Indian export house.' }}
+                                </p>
+
+                                <div class="bg-light p-2 rounded-2 small text-muted">
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <span><i class="bi bi-globe me-1"></i>Markets:</span>
+                                        <span class="fw-semibold text-dark">{{ seller.export_countries or 'Global' }}</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <span><i class="bi bi-building me-1"></i>Turnover:</span>
+                                        <span class="fw-semibold text-dark">{{ seller.annual_turnover or 'Undisclosed' }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer bg-white border-0 pt-0 pb-3">
+                                <a href="{{ url_for('main.seller_portfolio', seller_slug=seller.slug) }}" class="btn btn-navy btn-sm w-100 rounded-2">
+                                    View Full Portfolio <i class="bi bi-arrow-right ms-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="card card-custom p-5 text-center">
+                    <i class="bi bi-search text-muted display-4 mb-3"></i>
+                    <h5 class="fw-bold">No Exporters Match Your Filter Criteria</h5>
+                    <p class="text-muted small">Try broadening your search keywords or removing selected country/category filters.</p>
+                    <a href="{{ url_for('main.sellers_directory') }}" class="btn btn-outline-warning btn-sm mx-auto">Clear Filters</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

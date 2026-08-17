@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact Us | GlobalExportHub Support{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row g-5">
+        <div class="col-lg-5">
+            <span class="text-warning fw-bold text-uppercase small">Get in Touch</span>
+            <h1 class="fw-bold mb-4">Global Trade Support</h1>
+            <p class="text-muted mb-4">Have questions regarding seller registration, IEC verification, or buyer RFQ dispatches? Our international desk is available 24/7.</p>
+            
+            <div class="d-flex flex-column gap-3 mb-4">
+                <div class="d-flex align-items-center gap-3 p-3 bg-white rounded-3 border">
+                    <i class="bi bi-geo-alt-fill text-warning fs-3"></i>
+                    <div>
+                        <h6 class="fw-bold mb-0">Global Headquarters</h6>
+                        <small class="text-muted">Global Trade Tower, Level 14, Trade Hub Zone</small>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center gap-3 p-3 bg-white rounded-3 border">
+                    <i class="bi bi-envelope-fill text-primary fs-3"></i>
+                    <div>
+                        <h6 class="fw-bold mb-0">Support Email</h6>
+                        <small class="text-muted">support@globalexporthub.com</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-7">
+            <div class="card card-custom p-4 p-md-5">
+                <h4 class="fw-bold mb-4">Send Us a Direct Message</h4>
+                <form action="#" method="POST">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Your Name</label>
+                            <input type="text" class="form-control" placeholder="John Doe" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Email Address</label>
+                            <input type="email" class="form-control" placeholder="john@company.com" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Subject</label>
+                            <input type="text" class="form-control" placeholder="Verification Query / RFQ Support">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Message</label>
+                            <textarea class="form-control" rows="5" placeholder="How can we assist your business?" required></textarea>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-navy py-2 px-4 rounded-3 fw-bold">Submit Message</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

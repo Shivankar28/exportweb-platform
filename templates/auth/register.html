@@ -1,0 +1,258 @@
+{% extends 'base.html' %}
+
+{% block title %}Exporter Registration Wizard | GlobalExportHub{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card card-custom p-4 p-md-5 shadow-lg border-0">
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold mb-1">Multi-Step Exporter Registration</h2>
+                    <p class="text-muted small">Register your company to generate a dynamic B2B export portfolio and accept international buyer enquiries.</p>
+                </div>
+
+                <!-- Wizard Progress Indicator -->
+                <div class="step-wizard">
+                    <div class="step-wizard-step active" id="step-ind-1">
+                        <div class="step-circle"><i class="bi bi-person-fill"></i></div>
+                        <div class="step-title">1. Account</div>
+                    </div>
+                    <div class="step-wizard-step" id="step-ind-2">
+                        <div class="step-circle"><i class="bi bi-building"></i></div>
+                        <div class="step-title">2. Company</div>
+                    </div>
+                    <div class="step-wizard-step" id="step-ind-3">
+                        <div class="step-circle"><i class="bi bi-geo-alt-fill"></i></div>
+                        <div class="step-title">3. Address</div>
+                    </div>
+                    <div class="step-wizard-step" id="step-ind-4">
+                        <div class="step-circle"><i class="bi bi-globe-americas"></i></div>
+                        <div class="step-title">4. Export Info</div>
+                    </div>
+                </div>
+
+                <form id="sellerRegistrationForm" action="{{ url_for('auth.register') }}" method="POST" enctype="multipart/form-data">
+                    
+                    <!-- STEP 1: Account Info -->
+                    <div class="wizard-tab-content" id="step-1">
+                        <h4 class="fw-bold border-bottom pb-2 mb-4 text-primary"><i class="bi bi-person-gear me-2"></i>Account & Access Details</h4>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Official Work Email <span class="text-danger">*</span></label>
+                                <input type="email" name="email" class="form-control" placeholder="export@company.com" required>
+                                <div class="form-text">Used for login and receiving buyer enquiries.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Account Phone Number <span class="text-danger">*</span></label>
+                                <input type="tel" name="account_phone" class="form-control" placeholder="+91 98765 43210" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Password <span class="text-danger">*</span></label>
+                                <input type="password" name="password" id="password" class="form-control" placeholder="Minimum 6 characters" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Confirm Password <span class="text-danger">*</span></label>
+                                <input type="password" name="confirm_password" id="confirm_password" class="form-control" placeholder="Re-enter password" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- STEP 2: Company Profile & Verification -->
+                    <div class="wizard-tab-content d-none" id="step-2">
+                        <h4 class="fw-bold border-bottom pb-2 mb-4 text-primary"><i class="bi bi-patch-check-fill me-2 text-warning"></i>Company Profile & Government Identifiers</h4>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Company Name <span class="text-danger">*</span></label>
+                                <input type="text" name="company_name" class="form-control" placeholder="Sharma Agro Foods Pvt Ltd" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Business Type</label>
+                                <select name="business_type" class="form-select">
+                                    <option value="Manufacturer & Exporter">Manufacturer & Exporter</option>
+                                    <option value="Merchant Exporter">Merchant Exporter</option>
+                                    <option value="Trading Company">Trading Company</option>
+                                    <option value="Star Export House">Star Export House</option>
+                                    <option value="OEM / ODM Manufacturer">OEM / ODM Manufacturer</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Year Established</label>
+                                <input type="number" name="year_established" class="form-control" placeholder="e.g., 2005" min="1800" max="2026">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Registration Number</label>
+                                <input type="text" name="registration_number" class="form-control" placeholder="CIN / Business Reg No.">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">GST Number</label>
+                                <input type="text" name="gst_number" class="form-control" placeholder="07AAACS1420P1Z4">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">IEC Code (Import Export Code)</label>
+                                <input type="text" name="iec_code" class="form-control" placeholder="0502014920">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">PAN Number</label>
+                                <input type="text" name="pan_number" class="form-control" placeholder="AAACS1420P">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Employee Count</label>
+                                <select name="employee_count" class="form-select">
+                                    <option value="1-10">1 - 10 Employees</option>
+                                    <option value="10-50">10 - 50 Employees</option>
+                                    <option value="50-250" selected>50 - 250 Employees</option>
+                                    <option value="250-500">250 - 500 Employees</option>
+                                    <option value="500+">500+ Employees</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Annual Turnover</label>
+                                <select name="annual_turnover" class="form-select">
+                                    <option value="Under $1 Million">Under $1 Million</option>
+                                    <option value="$1M - $5M">$1 Million - $5 Million</option>
+                                    <option value="$5M - $25M" selected>$5 Million - $25 Million</option>
+                                    <option value="$25M - $100M">$25 Million - $100 Million</option>
+                                    <option value="$100M+">$100 Million+</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Company Website</label>
+                                <input type="url" name="website" class="form-control" placeholder="https://www.company.com">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Company Overview & Description</label>
+                                <textarea name="description" class="form-control" rows="4" placeholder="Describe your manufacturing setup, product quality standards, export history, and infrastructure..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- STEP 3: Address & Contact Details -->
+                    <div class="wizard-tab-content d-none" id="step-3">
+                        <h4 class="fw-bold border-bottom pb-2 mb-4 text-primary"><i class="bi bi-geo-alt me-2"></i>Registered Address & Primary Contact</h4>
+                        <div class="row g-3">
+                            <div class="col-md-12">
+                                <label class="form-label fw-semibold">Registered Address Line 1 <span class="text-danger">*</span></label>
+                                <input type="text" name="reg_address_line1" class="form-control" placeholder="Plot 45, APEDA Industrial Agro Zone, GT Road" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">City <span class="text-danger">*</span></label>
+                                <input type="text" name="reg_city" class="form-control" placeholder="Karnal" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">State / Province <span class="text-danger">*</span></label>
+                                <input type="text" name="reg_state" class="form-control" placeholder="Haryana" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Postal Code</label>
+                                <input type="text" name="reg_postal_code" class="form-control" placeholder="132001">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Country</label>
+                                <select name="reg_country" class="form-select">
+                                    {% for c in countries %}
+                                        <option value="{{ c.name }}" {% if c.name == 'India' %}selected{% endif %}>{{ c.flag_emoji }} {{ c.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="col-12 mt-4"><h6 class="fw-bold text-dark border-bottom pb-2">Primary Export Contact Person</h6></div>
+                            
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Contact Person Name <span class="text-danger">*</span></label>
+                                <input type="text" name="contact_person" class="form-control" placeholder="Rajesh Sharma" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Designation</label>
+                                <input type="text" name="designation" class="form-control" placeholder="Managing Director / Export Head">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Contact Phone <span class="text-danger">*</span></label>
+                                <input type="tel" name="phone" class="form-control" placeholder="+91 98765 43210" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">WhatsApp Number</label>
+                                <input type="tel" name="whatsapp" class="form-control" placeholder="+91 98765 43210">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- STEP 4: Export Capabilities & Media -->
+                    <div class="wizard-tab-content d-none" id="step-4">
+                        <h4 class="fw-bold border-bottom pb-2 mb-4 text-primary"><i class="bi bi-truck me-2"></i>Export Capabilities & Branding</h4>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Years of Export Experience</label>
+                                <input type="number" name="years_experience" class="form-control" placeholder="e.g., 15" min="0">
+                            </div>
+                            <div class="col-md-8">
+                                <label class="form-label fw-semibold">Target Export Countries / Regions</label>
+                                <input type="text" name="export_countries" class="form-control" placeholder="e.g., USA, UAE, Germany, Saudi Arabia, UK">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Minimum Order Quantity (MOQ)</label>
+                                <input type="text" name="moq" class="form-control" placeholder="e.g., 1 Container (20 MT)">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Production Capacity</label>
+                                <input type="text" name="production_capacity" class="form-control" placeholder="e.g., 5,000 MT / Month">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Payment Terms</label>
+                                <input type="text" name="payment_terms" class="form-control" placeholder="e.g., Irrevocable L/C at sight, 30% T/T Advance">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Shipping Terms</label>
+                                <input type="text" name="shipping_terms" class="form-control" placeholder="e.g., FOB, CIF, EXW, CFR">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Primary Port of Loading</label>
+                                <input type="text" name="port_of_loading" class="form-control" placeholder="e.g., Mundra Port / Kandla Port">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Typical Lead Time</label>
+                                <input type="text" name="lead_time" class="form-control" placeholder="e.g., 10 - 15 Days">
+                            </div>
+
+                            <div class="col-12 mt-4"><h6 class="fw-bold text-dark border-bottom pb-2">Branding Assets (Uploaded to Cloudinary)</h6></div>
+                            
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Company Logo</label>
+                                <input type="file" name="logo" class="form-control image-preview-input" data-preview="logoPreview" accept="image/*">
+                                <div class="mt-2 text-center">
+                                    <img id="logoPreview" class="d-none img-thumbnail rounded-3" style="max-height: 80px;" alt="Logo Preview">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Cover Header Image</label>
+                                <input type="file" name="cover" class="form-control image-preview-input" data-preview="coverPreview" accept="image/*">
+                                <div class="mt-2 text-center">
+                                    <img id="coverPreview" class="d-none img-thumbnail rounded-3" style="max-height: 80px;" alt="Cover Preview">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Navigation Footer -->
+                    <div class="d-flex justify-content-between align-items-center mt-5 pt-3 border-top">
+                        <button type="button" id="prevBtn" class="btn btn-outline-secondary px-4 fw-semibold d-none">
+                            <i class="bi bi-arrow-left me-1"></i> Previous Step
+                        </button>
+                        <div></div>
+                        <button type="button" id="nextBtn" class="btn btn-gold px-5 py-2 fw-bold">
+                            Next Step <i class="bi bi-arrow-right ms-1"></i>
+                        </button>
+                        <button type="submit" id="submitBtn" class="btn btn-success px-5 py-2 fw-bold d-none">
+                            <i class="bi bi-check-circle me-1"></i> Complete Registration & Submit
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/multi_step_form.js') }}"></script>
+{% endblock %}

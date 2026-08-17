@@ -1,0 +1,134 @@
+{% extends 'seller_dashboard/base_seller.html' %}
+
+{% block dashboard_content %}
+<div class="card card-custom p-4 mb-4">
+    <h4 class="fw-bold mb-4 border-bottom pb-2 text-primary"><i class="bi bi-building me-2"></i>Edit Company Profile & Identifiers</h4>
+    
+    <form action="{{ url_for('seller.profile') }}" method="POST" enctype="multipart/form-data">
+        
+        <!-- Logos & Covers Upload -->
+        <div class="row g-4 mb-4 p-3 bg-light rounded-3">
+            <div class="col-md-6">
+                <label class="form-label fw-semibold">Company Logo (Cloudinary)</label>
+                <div class="d-flex align-items-center gap-3">
+                    <img id="logoPrev" src="{{ seller.logo_url or 'https://images.unsplash.com/photo-1560179707-f14e90ef3623?auto=format&fit=crop&w=200&q=80' }}" class="rounded-3 border bg-white p-1" style="width: 80px; height: 80px; object-fit: contain;" alt="Logo">
+                    <div class="flex-grow-1">
+                        <input type="file" name="logo" class="form-control form-control-sm image-preview-input" data-preview="logoPrev" accept="image/*">
+                        <small class="text-muted d-block mt-1">Recommended: 400x400 PNG/JPG</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label fw-semibold">Cover Header Banner (Cloudinary)</label>
+                <div class="d-flex align-items-center gap-3">
+                    <img id="coverPrev" src="{{ seller.cover_url or 'https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=600&q=80' }}" class="rounded-3 border bg-white p-1" style="width: 120px; height: 80px; object-fit: cover;" alt="Cover">
+                    <div class="flex-grow-1">
+                        <input type="file" name="cover" class="form-control form-control-sm image-preview-input" data-preview="coverPrev" accept="image/*">
+                        <small class="text-muted d-block mt-1">Recommended: 1400x400 JPG</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label class="form-label fw-semibold">Company Name <span class="text-danger">*</span></label>
+                <input type="text" name="company_name" class="form-control" value="{{ seller.company_name }}" required>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label fw-semibold">Business Type</label>
+                <select name="business_type" class="form-select">
+                    <option value="Manufacturer & Exporter" {% if seller.business_type == 'Manufacturer & Exporter' %}selected{% endif %}>Manufacturer & Exporter</option>
+                    <option value="Merchant Exporter" {% if seller.business_type == 'Merchant Exporter' %}selected{% endif %}>Merchant Exporter</option>
+                    <option value="Trading Company" {% if seller.business_type == 'Trading Company' %}selected{% endif %}>Trading Company</option>
+                    <option value="Star Export House" {% if seller.business_type == 'Star Export House' %}selected{% endif %}>Star Export House</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label fw-semibold">Year Established</label>
+                <input type="number" name="year_established" class="form-control" value="{{ seller.year_established or '' }}">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label fw-semibold">Registration Number</label>
+                <input type="text" name="registration_number" class="form-control" value="{{ seller.registration_number or '' }}">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label fw-semibold">GST Number</label>
+                <input type="text" name="gst_number" class="form-control" value="{{ seller.gst_number or '' }}">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label fw-semibold">IEC Code (Import Export Code)</label>
+                <input type="text" name="iec_code" class="form-control" value="{{ seller.iec_code or '' }}">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label fw-semibold">PAN Number</label>
+                <input type="text" name="pan_number" class="form-control" value="{{ seller.pan_number or '' }}">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label fw-semibold">Employee Count</label>
+                <input type="text" name="employee_count" class="form-control" value="{{ seller.employee_count or '' }}">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label fw-semibold">Annual Turnover</label>
+                <input type="text" name="annual_turnover" class="form-control" value="{{ seller.annual_turnover or '' }}">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label fw-semibold">Company Website</label>
+                <input type="url" name="website" class="form-control" value="{{ seller.website or '' }}">
+            </div>
+            <div class="col-12">
+                <label class="form-label fw-semibold">Company Overview & Description</label>
+                <textarea name="description" class="form-control" rows="5">{{ seller.description or '' }}</textarea>
+            </div>
+
+            <!-- Address Section -->
+            <div class="col-12 mt-4"><h5 class="fw-bold border-bottom pb-2 text-dark"><i class="bi bi-geo-alt me-2"></i>Registered Address</h5></div>
+            
+            <div class="col-md-12">
+                <label class="form-label fw-semibold">Address Line 1</label>
+                <input type="text" name="address_line1" class="form-control" value="{{ address.address_line1 if address else '' }}">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label fw-semibold">City</label>
+                <input type="text" name="city" class="form-control" value="{{ address.city if address else '' }}">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label fw-semibold">State / Province</label>
+                <input type="text" name="state" class="form-control" value="{{ address.state if address else '' }}">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label fw-semibold">Postal Code</label>
+                <input type="text" name="postal_code" class="form-control" value="{{ address.postal_code if address else '' }}">
+            </div>
+
+            <!-- Contact Person Section -->
+            <div class="col-12 mt-4"><h5 class="fw-bold border-bottom pb-2 text-dark"><i class="bi bi-person me-2"></i>Primary Contact Person</h5></div>
+            
+            <div class="col-md-6">
+                <label class="form-label fw-semibold">Contact Person Name</label>
+                <input type="text" name="contact_person" class="form-control" value="{{ contact.contact_person if contact else '' }}">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label fw-semibold">Designation</label>
+                <input type="text" name="designation" class="form-control" value="{{ contact.designation if contact else '' }}">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label fw-semibold">Phone Number</label>
+                <input type="tel" name="phone" class="form-control" value="{{ contact.phone if contact else '' }}">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label fw-semibold">WhatsApp Number</label>
+                <input type="tel" name="whatsapp" class="form-control" value="{{ contact.whatsapp if contact else '' }}">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label fw-semibold">Contact Email</label>
+                <input type="email" name="contact_email" class="form-control" value="{{ contact.email if contact else current_user.email }}">
+            </div>
+
+            <div class="col-12 mt-4">
+                <button type="submit" class="btn btn-navy py-2.5 px-4 fw-bold">Save Company Profile Changes</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}Exporter Dashboard | GlobalExportHub{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row g-4">
+        <!-- Sidebar Navigation -->
+        <div class="col-lg-3 col-xl-2">
+            <div class="card card-custom p-3 sticky-top" style="top: 90px;">
+                <div class="text-center pb-3 mb-3 border-bottom">
+                    <img src="{{ seller.logo_url or 'https://images.unsplash.com/photo-1560179707-f14e90ef3623?auto=format&fit=crop&w=200&q=80' }}" class="rounded-circle border mb-2" style="width: 70px; height: 70px; object-fit: contain;" alt="Logo">
+                    <h6 class="fw-bold mb-1 text-truncate">{{ seller.company_name }}</h6>
+                    
+                    {% if seller.status == 'approved' %}
+                        <span class="badge badge-verified"><i class="bi bi-patch-check-fill"></i> Approved</span>
+                    {% elif seller.status == 'pending' %}
+                        <span class="badge badge-pending">Pending Review</span>
+                    {% elif seller.status == 'rejected' %}
+                        <span class="badge badge-rejected">Action Required</span>
+                    {% else %}
+                        <span class="badge bg-secondary">Suspended</span>
+                    {% endif %}
+                </div>
+
+                <div class="nav flex-column nav-pills gap-1">
+                    <a href="{{ url_for('seller.dashboard') }}" class="nav-link text-start {% if request.endpoint == 'seller.dashboard' %}active bg-dark text-warning{% else %}text-dark{% endif %}">
+                        <i class="bi bi-speedometer2 me-2"></i> Overview
+                    </a>
+                    <a href="{{ url_for('seller.profile') }}" class="nav-link text-start {% if request.endpoint == 'seller.profile' %}active bg-dark text-warning{% else %}text-dark{% endif %}">
+                        <i class="bi bi-building me-2"></i> Company Profile
+                    </a>
+                    <a href="{{ url_for('seller.export_info') }}" class="nav-link text-start {% if request.endpoint == 'seller.export_info' %}active bg-dark text-warning{% else %}text-dark{% endif %}">
+                        <i class="bi bi-truck me-2"></i> Export Logistics
+                    </a>
+                    <a href="{{ url_for('seller.products') }}" class="nav-link text-start {% if request.endpoint == 'seller.products' %}active bg-dark text-warning{% else %}text-dark{% endif %}">
+                        <i class="bi bi-box-seam me-2"></i> Products Catalog
+                    </a>
+                    <a href="{{ url_for('seller.certifications') }}" class="nav-link text-start {% if request.endpoint == 'seller.certifications' %}active bg-dark text-warning{% else %}text-dark{% endif %}">
+                        <i class="bi bi-file-earmark-check me-2"></i> Certifications
+                    </a>
+                    <a href="{{ url_for('seller.gallery') }}" class="nav-link text-start {% if request.endpoint == 'seller.gallery' %}active bg-dark text-warning{% else %}text-dark{% endif %}">
+                        <i class="bi bi-images me-2"></i> Plant Gallery
+                    </a>
+                    <a href="{{ url_for('seller.enquiries') }}" class="nav-link text-start {% if request.endpoint == 'seller.enquiries' %}active bg-dark text-warning{% else %}text-dark{% endif %}">
+                        <i class="bi bi-envelope-paper me-2"></i> Buyer Enquiries
+                    </a>
+                </div>
+
+                <div class="border-top pt-3 mt-3 d-grid gap-2">
+                    <a href="{{ url_for('main.seller_portfolio', seller_slug=seller.slug) }}" target="_blank" class="btn btn-outline-warning btn-sm fw-bold">
+                        <i class="bi bi-eye me-1"></i> Preview Portfolio
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Content Body -->
+        <div class="col-lg-9 col-xl-10">
+            {% block dashboard_content %}{% endblock %}
+        </div>
+    </div>
+</div>
+{% endblock %}

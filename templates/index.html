@@ -1,0 +1,212 @@
+{% extends 'base.html' %}
+
+{% block title %}GlobalExportHub | International B2B Exporter Marketplace{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container position-relative z-2">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-7">
+                <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold mb-3 shadow-sm">
+                    <i class="bi bi-shield-check me-1"></i> VERIFIED EXPORTERS & MANUFACTURERS
+                </span>
+                <h1 class="display-4 fw-extrabold text-white mb-4 lh-tight">
+                    Direct Trade with Certified <span class="text-warning">Global Exporters</span>
+                </h1>
+                <p class="lead text-light opacity-90 mb-4">
+                    Source premium agricultural produce, textiles, engineering machinery, and pharmaceuticals directly from government-verified exporters with dynamic business portfolios.
+                </p>
+
+                <!-- Search Bar -->
+                <form action="{{ url_for('main.sellers_directory') }}" method="GET" class="card p-2 shadow-lg border-0 bg-white rounded-4 mb-4">
+                    <div class="row g-2 align-items-center">
+                        <div class="col-md-5">
+                            <div class="input-group border-0">
+                                <span class="input-group-text bg-transparent border-0 text-muted"><i class="bi bi-search"></i></span>
+                                <input type="text" name="q" class="form-control border-0 shadow-none ps-0" placeholder="Search product, company, HS code...">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <select name="category" class="form-select border-0 shadow-none text-muted">
+                                <option value="">All Categories</option>
+                                {% for cat in categories %}
+                                    <option value="{{ cat.id }}">{{ cat.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-gold w-100 py-2 rounded-3 fw-bold">
+                                Search Exporters
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Quick Pills -->
+                <div class="d-flex flex-wrap gap-2 text-white-50 small">
+                    <span class="text-light fw-semibold">Popular Sectors:</span>
+                    <a href="{{ url_for('main.sellers_directory', q='Basmati Rice') }}" class="badge bg-secondary bg-opacity-50 text-light text-decoration-none">Basmati Rice</a>
+                    <a href="{{ url_for('main.sellers_directory', q='Cotton Yarn') }}" class="badge bg-secondary bg-opacity-50 text-light text-decoration-none">Organic Cotton</a>
+                    <a href="{{ url_for('main.sellers_directory', q='CNC Tools') }}" class="badge bg-secondary bg-opacity-50 text-light text-decoration-none">CNC Machinery</a>
+                    <a href="{{ url_for('main.sellers_directory', q='Spices') }}" class="badge bg-secondary bg-opacity-50 text-light text-decoration-none">Indian Spices</a>
+                </div>
+            </div>
+
+            <!-- Hero Stats Box -->
+            <div class="col-lg-5">
+                <div class="row g-3">
+                    <div class="col-6">
+                        <div class="p-4 rounded-4 bg-white bg-opacity-10 backdrop-blur border border-white border-opacity-10 text-white">
+                            <h2 class="display-6 fw-bold text-warning mb-1">{{ stats.sellers }}+</h2>
+                            <p class="mb-0 small text-light opacity-75">Verified Exporters</p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-4 rounded-4 bg-white bg-opacity-10 backdrop-blur border border-white border-opacity-10 text-white">
+                            <h2 class="display-6 fw-bold text-warning mb-1">{{ stats.products }}+</h2>
+                            <p class="mb-0 small text-light opacity-75">Certified Export Items</p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-4 rounded-4 bg-white bg-opacity-10 backdrop-blur border border-white border-opacity-10 text-white">
+                            <h2 class="display-6 fw-bold text-warning mb-1">{{ stats.countries }}+</h2>
+                            <p class="mb-0 small text-light opacity-75">Global Trade Markets</p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-4 rounded-4 bg-warning text-dark">
+                            <h2 class="display-6 fw-bold mb-1">100%</h2>
+                            <p class="mb-0 small fw-semibold">IEC & GST Audited</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Top Categories -->
+<section class="py-5">
+    <div class="container py-4">
+        <div class="d-flex justify-content-between align-items-end mb-4">
+            <div>
+                <span class="text-warning fw-bold text-uppercase small tracking-wide">Industry Classification</span>
+                <h2 class="mb-0">Browse Export Sectors</h2>
+            </div>
+            <a href="{{ url_for('main.categories') }}" class="btn btn-outline-dark btn-sm fw-semibold">View All Categories <i class="bi bi-arrow-right"></i></a>
+        </div>
+
+        <div class="row g-4">
+            {% for cat in categories %}
+            <div class="col-lg-2 col-md-4 col-6">
+                <a href="{{ url_for('main.sellers_directory', category=cat.id) }}" class="card card-custom text-center p-4 text-decoration-none h-100">
+                    <div class="rounded-circle bg-warning bg-opacity-10 text-warning d-inline-flex align-items-center justify-content-center mx-auto mb-3" style="width: 56px; height: 56px;">
+                        <i class="bi {{ cat.icon_class or 'bi-box-seam' }} fs-3"></i>
+                    </div>
+                    <h6 class="fw-bold text-dark mb-1">{{ cat.name }}</h6>
+                    <span class="small text-muted">{{ cat.products.count() }} Products</span>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Featured Verified Exporters -->
+<section class="py-5 bg-white border-top border-bottom">
+    <div class="container py-4">
+        <div class="d-flex justify-content-between align-items-end mb-4">
+            <div>
+                <span class="text-warning fw-bold text-uppercase small">Government Verified</span>
+                <h2 class="mb-0">Featured International Exporters</h2>
+            </div>
+            <a href="{{ url_for('main.sellers_directory') }}" class="btn btn-outline-dark btn-sm fw-semibold">Explore All Exporters <i class="bi bi-arrow-right"></i></a>
+        </div>
+
+        <div class="row g-4">
+            {% for seller in featured_sellers %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card card-custom h-100 d-flex flex-column">
+                    <div class="position-relative">
+                        <img src="{{ seller.cover_url or 'https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=600&q=80' }}" class="card-img-top" alt="{{ seller.company_name }}" style="height: 140px; object-fit: cover;">
+                        <div class="position-absolute top-100 start-0 translate-middle-y ms-3">
+                            <img src="{{ seller.logo_url or 'https://images.unsplash.com/photo-1560179707-f14e90ef3623?auto=format&fit=crop&w=200&q=80' }}" class="rounded-3 border border-3 border-white bg-white shadow-sm" alt="logo" style="width: 60px; height: 60px; object-fit: contain;">
+                        </div>
+                    </div>
+                    <div class="card-body pt-4 flex-grow-1">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <span class="badge badge-verified"><i class="bi bi-patch-check-fill"></i> Verified Exporter</span>
+                            <span class="small text-muted"><i class="bi bi-geo-alt me-1"></i>{{ seller.addresses[0].city if seller.addresses else 'India' }}</span>
+                        </div>
+                        <h5 class="card-title fw-bold mb-1">
+                            <a href="{{ url_for('main.seller_portfolio', seller_slug=seller.slug) }}" class="text-dark text-decoration-none">
+                                {{ seller.company_name }}
+                            </a>
+                        </h5>
+                        <p class="small text-muted mb-3">{{ seller.business_type or 'Manufacturer & Exporter' }} &bull; Est. {{ seller.year_established or 'N/A' }}</p>
+                        
+                        <p class="card-text small text-secondary line-clamp-2 mb-3">
+                            {{ seller.description or 'Certified export house supplying premium quality products worldwide.' }}
+                        </p>
+
+                        <div class="bg-light p-2 rounded-2 mb-3 small">
+                            <div class="d-flex justify-content-between text-muted mb-1">
+                                <span><i class="bi bi-globe me-1"></i>Markets:</span>
+                                <span class="fw-semibold text-dark">{{ seller.export_countries or 'Global' }}</span>
+                            </div>
+                            <div class="d-flex justify-content-between text-muted">
+                                <span><i class="bi bi-box me-1"></i>MOQ:</span>
+                                <span class="fw-semibold text-dark">{{ seller.moq or 'Flexible' }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white border-0 pt-0 pb-3">
+                        <a href="{{ url_for('main.seller_portfolio', seller_slug=seller.slug) }}" class="btn btn-navy btn-sm w-100 rounded-2">
+                            View Exporter Portfolio <i class="bi bi-arrow-right me-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Featured Products Catalog -->
+<section class="py-5">
+    <div class="container py-4">
+        <div class="d-flex justify-content-between align-items-end mb-4">
+            <div>
+                <span class="text-warning fw-bold text-uppercase small">Direct Sourcing</span>
+                <h2 class="mb-0">Featured Export Products</h2>
+            </div>
+            <a href="{{ url_for('main.products_directory') }}" class="btn btn-outline-dark btn-sm fw-semibold">View Product Catalog <i class="bi bi-arrow-right"></i></a>
+        </div>
+
+        <div class="row g-4">
+            {% for product in featured_products %}
+            <div class="col-lg-3 col-md-6">
+                <div class="card card-custom h-100">
+                    <img src="{{ product.primary_image or 'https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=600&q=80' }}" class="card-img-top" alt="{{ product.name }}" style="height: 180px; object-fit: cover;">
+                    <div class="card-body">
+                        <span class="badge bg-secondary bg-opacity-10 text-secondary mb-2">{{ product.category.name if product.category else 'General' }}</span>
+                        <h6 class="fw-bold mb-1 text-truncate">
+                            <a href="{{ url_for('main.product_detail', product_slug=product.slug) }}" class="text-dark text-decoration-none">
+                                {{ product.name }}
+                            </a>
+                        </h6>
+                        <p class="small text-muted mb-2">By: <a href="{{ url_for('main.seller_portfolio', seller_slug=product.seller.slug) }}" class="text-decoration-none fw-semibold text-primary">{{ product.seller.company_name }}</a></p>
+                        
+                        <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top">
+                            <span class="fw-bold text-success small">{{ product.price_range or 'Contact Exporter' }}</span>
+                            <a href="{{ url_for('main.product_detail', product_slug=product.slug) }}" class="btn btn-sm btn-outline-primary">RFQ</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

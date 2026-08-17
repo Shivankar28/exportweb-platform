@@ -1,0 +1,51 @@
+{% extends 'seller_dashboard/base_seller.html' %}
+
+{% block dashboard_content %}
+<div class="card card-custom p-4">
+    <h4 class="fw-bold mb-4 border-bottom pb-2 text-primary"><i class="bi bi-truck me-2"></i>Export Capabilities & Shipping Terms</h4>
+    
+    <form action="{{ url_for('seller.export_info') }}" method="POST">
+        <div class="row g-3">
+            <div class="col-md-4">
+                <label class="form-label fw-semibold">Years of Export Experience</label>
+                <input type="number" name="years_experience" class="form-control" value="{{ seller.years_experience or 0 }}">
+            </div>
+            <div class="col-md-8">
+                <label class="form-label fw-semibold">Target Export Countries / Regions</label>
+                <input type="text" name="export_countries" class="form-control" value="{{ seller.export_countries or '' }}" placeholder="USA, UAE, Germany, UK, Netherlands">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label fw-semibold">Minimum Order Quantity (MOQ)</label>
+                <input type="text" name="moq" class="form-control" value="{{ seller.moq or '' }}" placeholder="1 Container (20 MT) / 1,000 Units">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label fw-semibold">Monthly Production Capacity</label>
+                <input type="text" name="production_capacity" class="form-control" value="{{ seller.production_capacity or '' }}" placeholder="5,000 Metric Tons / Month">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label fw-semibold">Accepted Payment Terms</label>
+                <input type="text" name="payment_terms" class="form-control" value="{{ seller.payment_terms or '' }}" placeholder="Irrevocable L/C at sight, 30% T/T Advance">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label fw-semibold">Supported Shipping Terms</label>
+                <input type="text" name="shipping_terms" class="form-control" value="{{ seller.shipping_terms or '' }}" placeholder="FOB, CIF, EXW, CFR">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label fw-semibold">Primary Port of Loading</label>
+                <input type="text" name="port_of_loading" class="form-control" value="{{ seller.port_of_loading or '' }}" placeholder="Mundra Port / Kandla Port / Tuticorin">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label fw-semibold">Typical Lead Time</label>
+                <input type="text" name="lead_time" class="form-control" value="{{ seller.lead_time or '' }}" placeholder="10 - 15 Days">
+            </div>
+            <div class="col-12">
+                <label class="form-label fw-semibold">Packaging & Custom Private Labeling Details</label>
+                <textarea name="packaging_details" class="form-control" rows="4" placeholder="Vacuum Sealed Polybags, Jute Bags, Custom Barcoded Cartons...">{{ seller.packaging_details or '' }}</textarea>
+            </div>
+            <div class="col-12 mt-4">
+                <button type="submit" class="btn btn-navy py-2.5 px-4 fw-bold">Save Export Logistics Terms</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

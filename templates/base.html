@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}GlobalExportHub | Verified B2B Exporters & Marketplace{% endblock %}</title>
+    <meta name="description" content="Connect with verified global exporters, manufacturers, and B2B suppliers. Browse certified products, export portfolios, and send direct RFQs.">
+    
+    <!-- Bootstrap 5.3 CSS & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+    <!-- Header Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm py-3" style="background-color: var(--primary-navy) !important;">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="{{ url_for('main.index') }}">
+                <i class="bi bi-globe-americas text-warning me-2 fs-3"></i>
+                <span>GlobalExport<span class="text-warning">Hub</span></span>
+                <span class="brand-badge">B2B EXPORT</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarMain">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'main.index' %}active{% endif %}" href="{{ url_for('main.index') }}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'main.sellers_directory' %}active{% endif %}" href="{{ url_for('main.sellers_directory') }}">Exporters Directory</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'main.products_directory' %}active{% endif %}" href="{{ url_for('main.products_directory') }}">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'main.categories' %}active{% endif %}" href="{{ url_for('main.categories') }}">Categories</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'main.about' %}active{% endif %}" href="{{ url_for('main.about') }}">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'main.contact' %}active{% endif %}" href="{{ url_for('main.contact') }}">Contact</a>
+                    </li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-2">
+                    {% if current_user.is_authenticated %}
+                        {% if current_user.is_admin %}
+                            <a href="{{ url_for('admin.dashboard') }}" class="btn btn-sm btn-outline-warning fw-semibold">
+                                <i class="bi bi-shield-lock me-1"></i> Admin Panel
+                            </a>
+                        {% elif current_user.is_seller %}
+                            <a href="{{ url_for('seller.dashboard') }}" class="btn btn-sm btn-gold me-2">
+                                <i class="bi bi-speedometer2 me-1"></i> Exporter Dashboard
+                            </a>
+                        {% endif %}
+                        <a href="{{ url_for('auth.logout') }}" class="btn btn-sm btn-outline-light">
+                            <i class="bi bi-box-arrow-right"></i> Logout
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('auth.login') }}" class="btn btn-sm btn-outline-light me-2 fw-medium">
+                            <i class="bi bi-person me-1"></i> Login
+                        </a>
+                        <a href="{{ url_for('auth.register') }}" class="btn btn-sm btn-gold fw-semibold">
+                            <i class="bi bi-patch-check-fill me-1"></i> Register as Exporter
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Flash Messages Container -->
+    <div class="container mt-3">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show shadow-sm border-0 d-flex align-items-center" role="alert">
+                        <i class="bi bi-info-circle-fill me-2 fs-5"></i>
+                        <div>{{ message }}</div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-grow-1">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="pt-5 pb-4 mt-5">
+        <div class="container">
+            <div class="row g-4 mb-4">
+                <div class="col-lg-4 col-md-6">
+                    <a class="navbar-brand text-white d-flex align-items-center mb-3" href="{{ url_for('main.index') }}">
+                        <i class="bi bi-globe-americas text-warning me-2 fs-3"></i>
+                        <span>GlobalExport<span class="text-warning">Hub</span></span>
+                    </a>
+                    <p class="small text-muted mb-3">
+                        GlobalExportHub is an international B2B marketplace facilitating direct trade between verified manufacturers, exporters, and international buyers worldwide.
+                    </p>
+                    <div class="d-flex gap-3 text-warning">
+                        <i class="bi bi-patch-check-fill fs-5"></i>
+                        <span class="small text-light">Government Registered Exporters & Verified Trade Badges</span>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-6">
+                    <h5 class="fw-bold mb-3 fs-6">Quick Links</h5>
+                    <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
+                        <li><a href="{{ url_for('main.sellers_directory') }}">Exporters Directory</a></li>
+                        <li><a href="{{ url_for('main.products_directory') }}">Product Catalog</a></li>
+                        <li><a href="{{ url_for('main.categories') }}">Browse Categories</a></li>
+                        <li><a href="{{ url_for('auth.register') }}">Register as Seller</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="fw-bold mb-3 fs-6">Top Export Sectors</h5>
+                    <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
+                        <li><a href="{{ url_for('main.sellers_directory', category=1) }}">Agro & Food Products</a></li>
+                        <li><a href="{{ url_for('main.sellers_directory', category=2) }}">Textiles & Garments</a></li>
+                        <li><a href="{{ url_for('main.sellers_directory', category=3) }}">Engineering & Machinery</a></li>
+                        <li><a href="{{ url_for('main.sellers_directory', category=4) }}">Chemicals & Pharmaceuticals</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="fw-bold mb-3 fs-6">Contact & Verification</h5>
+                    <p class="small text-muted mb-2"><i class="bi bi-geo-alt me-2 text-warning"></i> Global Trade Tower, Level 14, Trade Hub Zone</p>
+                    <p class="small text-muted mb-2"><i class="bi bi-envelope me-2 text-warning"></i> support@globalexporthub.com</p>
+                    <p class="small text-muted mb-0"><i class="bi bi-shield-check me-2 text-warning"></i> IEC & GST Verified Supplier Network</p>
+                </div>
+            </div>
+
+            <hr class="border-secondary opacity-25">
+            
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center small text-muted pt-2">
+                <p class="mb-0">&copy; {{ current_year }} GlobalExportHub. All rights reserved.</p>
+                <div class="d-flex gap-3 mt-2 mt-md-0">
+                    <a href="#" class="text-muted text-decoration-none">Privacy Policy</a>
+                    <a href="#" class="text-muted text-decoration-none">Terms of Export Service</a>
+                    <a href="#" class="text-muted text-decoration-none">Supplier Guidelines</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5.3 Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
