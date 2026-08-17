@@ -1,0 +1,29 @@
+services:
+  # Web Service
+  - type: web
+    name: exportweb-platform
+    env: python
+    buildCommand: "pip install -r requirements.txt && python seed.py"
+    startCommand: "gunicorn wsgi:app"
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: exportweb-db
+          property: connectionString
+      - key: USE_SQLITE_FALLBACK
+        value: "False"
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+
+# Managed MySQL Database
+databases:
+  - name: exportweb-db
+    databaseName: exportweb_db
+    user: root
+    plan: free

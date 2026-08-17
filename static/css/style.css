@@ -1,0 +1,294 @@
+/* GlobalExportHub - Professional B2B Exporter CSS */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+    --primary-navy: #0f172a;
+    --secondary-slate: #1e293b;
+    --accent-gold: #f59e0b;
+    --accent-gold-hover: #d97706;
+    --emerald-green: #10b981;
+    --blue-accent: #2563eb;
+    --light-bg: #f8fafc;
+    --card-border: #e2e8f0;
+    --text-main: #334155;
+    --text-muted: #64748b;
+    --font-heading: 'Outfit', sans-serif;
+    --font-body: 'Plus Jakarta Sans', sans-serif;
+}
+
+body {
+    font-family: var(--font-body);
+    color: var(--text-main);
+    background-color: var(--light-bg);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+h1, h2, h3, h4, h5, h6, .font-heading {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: var(--primary-navy);
+}
+
+/* Navbar */
+.navbar-brand {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.45rem;
+    letter-spacing: -0.5px;
+}
+
+.brand-badge {
+    background: linear-gradient(135deg, var(--accent-gold), #b45309);
+    color: #fff;
+    font-size: 0.65rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    vertical-align: middle;
+    margin-left: 4px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.nav-link {
+    font-weight: 500;
+    color: #cbd5e1 !important;
+    transition: all 0.2s ease;
+}
+
+.nav-link:hover, .nav-link.active {
+    color: #ffffff !important;
+}
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #090d16 100%);
+    color: #ffffff;
+    padding: 80px 0 100px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: radial-gradient(circle at 80% 20%, rgba(245, 158, 11, 0.12) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+/* Glass & Card Design */
+.card-custom {
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    background: #ffffff;
+}
+
+.card-custom:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08);
+}
+
+.badge-verified {
+    background-color: rgba(16, 185, 129, 0.12);
+    color: var(--emerald-green);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.badge-pending {
+    background-color: rgba(245, 158, 11, 0.12);
+    color: #b45309;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.badge-rejected {
+    background-color: rgba(239, 68, 68, 0.12);
+    color: #dc2626;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+/* Dynamic Portfolio Header */
+.portfolio-header {
+    position: relative;
+    margin-bottom: 80px;
+}
+
+.portfolio-cover {
+    height: 280px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 16px 16px 0 0;
+    position: relative;
+}
+
+.portfolio-cover-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(15, 23, 42, 0.2), rgba(15, 23, 42, 0.7));
+    border-radius: 16px 16px 0 0;
+}
+
+.portfolio-logo-box {
+    width: 140px;
+    height: 140px;
+    border-radius: 16px;
+    background: #ffffff;
+    padding: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    position: absolute;
+    bottom: -60px;
+    left: 40px;
+    z-index: 10;
+    border: 4px solid #ffffff;
+}
+
+.portfolio-logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+.portfolio-title-area {
+    padding-left: 200px;
+    padding-top: 15px;
+    padding-bottom: 20px;
+}
+
+/* Multi-step Registration Wizard */
+.step-wizard {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.step-wizard::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 10%;
+    right: 10%;
+    height: 3px;
+    background: #e2e8f0;
+    z-index: 1;
+}
+
+.step-wizard-step {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    width: 25%;
+}
+
+.step-circle {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 3px solid #cbd5e1;
+    color: var(--text-muted);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 8px;
+    transition: all 0.3s ease;
+}
+
+.step-wizard-step.active .step-circle {
+    border-color: var(--accent-gold);
+    background: var(--accent-gold);
+    color: #ffffff;
+}
+
+.step-wizard-step.completed .step-circle {
+    border-color: var(--emerald-green);
+    background: var(--emerald-green);
+    color: #ffffff;
+}
+
+.step-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.step-wizard-step.active .step-title {
+    color: var(--primary-navy);
+}
+
+/* Custom Buttons */
+.btn-gold {
+    background: linear-gradient(135deg, var(--accent-gold), #d97706);
+    color: #ffffff;
+    font-weight: 600;
+    border: none;
+    transition: all 0.25s ease;
+}
+
+.btn-gold:hover {
+    background: linear-gradient(135deg, #d97706, #b45309);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(217, 119, 6, 0.35);
+}
+
+.btn-navy {
+    background-color: var(--primary-navy);
+    color: #ffffff;
+    font-weight: 600;
+    border: none;
+}
+
+.btn-navy:hover {
+    background-color: var(--secondary-slate);
+    color: #ffffff;
+}
+
+/* Footer */
+footer {
+    background-color: var(--primary-navy);
+    color: #94a3b8;
+    margin-top: auto;
+}
+
+footer h5 {
+    color: #ffffff;
+}
+
+footer a {
+    color: #cbd5e1;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+footer a:hover {
+    color: var(--accent-gold);
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+    .portfolio-title-area {
+        padding-left: 15px;
+        padding-top: 70px;
+    }
+    .portfolio-logo-box {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
